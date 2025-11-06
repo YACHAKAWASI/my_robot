@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>my_motor_hardware</name>
+  <version>0.0.1</version>
+  <description>Plugin hardware_interface para BTS7960 (plantilla)</description>
+
+  <maintainer email="pi@raspberrypi.local">pi</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>hardware_interface</depend>
+  <depend>pluginlib</depend>
+  <depend>ament_index_cpp</depend>  <!-- añadido -->
+
+  <export>
+    <build_type>ament_cmake</build_type>
+    <pluginlib plugin="${prefix}/my_motor_hardware.xml"/>
+  </export>
+</package>

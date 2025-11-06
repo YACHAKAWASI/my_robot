@@ -1,0 +1,7 @@
+<library path="libmy_motor_hardware.so">
+  <class name="my_motor_hardware/Bts7960Actuator"
+         type="my_motor_hardware::Bts7960Actuator"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>Driver BTS7960 (plantilla) para ROS 2 hardware_interface</description>
+  </class>
+</library>

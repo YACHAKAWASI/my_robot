@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="my_robot">
+  <!-- al menos un link para robot_state_publisher -->
+  <link name="base_link"/>
+
+  <!-- ros2_control que usa tu plugin -->
+  <ros2_control name="MyRobotSystem" type="system">
+    <hardware>
+      <plugin>my_motor_hardware/Bts7960Actuator</plugin>
+      <!-- parámetros opcionales
+      <param name="pwm_pin">18</param>
+      -->
+    </hardware>
+  </ros2_control>
+</robot>
