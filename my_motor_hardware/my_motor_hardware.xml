@@ -1,7 +1,7 @@
-<library path="libmy_motor_hardware.so">
+<library path="my_motor_hardware">
   <class name="my_motor_hardware/Bts7960Actuator"
          type="my_motor_hardware::Bts7960Actuator"
          base_class_type="hardware_interface::SystemInterface">
-    <description>Driver BTS7960 (plantilla) para ROS 2 hardware_interface</description>
+    <description>Hardware interface for BTS7960 motor driver using libgpiod</description>
   </class>
 </library>

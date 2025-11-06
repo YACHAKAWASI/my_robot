@@ -1,49 +1,63 @@
 cmake_minimum_required(VERSION 3.8)
 project(my_motor_hardware)
 
-if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 17)
-endif()
-
+# ROS 2
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rclcpp_lifecycle REQUIRED)
 find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
-find_package(ament_index_cpp REQUIRED)  # <-- añadido
 
-include_directories(include)
+# libgpiod
+find_library(GPIOD_LIB gpiod REQUIRED)
 
-add_library(${PROJECT_NAME} SHARED
+# ===== Librería del hardware (plugin) =====
+add_library(bts7960_actuator SHARED
   src/bts7960_actuator.cpp
 )
-ament_target_dependencies(${PROJECT_NAME}
-  rclcpp
-  hardware_interface
-  pluginlib
-  ament_index_cpp                  # <-- añadido
+target_include_directories(bts7960_actuator PUBLIC
+  include
+)
+target_link_libraries(bts7960_actuator
+  ${GPIOD_LIB}
+  pthread
+  rt
+)
+ament_target_dependencies(bts7960_actuator
+  rclcpp rclcpp_lifecycle hardware_interface pluginlib
 )
 
-# Registra el descriptor del plugin en ament index
+# Exportar el plugin (pluginlib)
 pluginlib_export_plugin_description_file(hardware_interface my_motor_hardware.xml)
 
-# Instalación
-install(TARGETS ${PROJECT_NAME}
+# ===== Ejecutable de prueba =====
+add_executable(test_motor
+  test_motor.cpp
+)
+target_include_directories(test_motor PRIVATE
+  include
+)
+target_link_libraries(test_motor
+  bts7960_actuator
+  ${GPIOD_LIB}
+  pthread
+  rt
+)
+ament_target_dependencies(test_motor
+  rclcpp rclcpp_lifecycle hardware_interface
+)
+
+# ===== Instalación =====
+install(TARGETS bts7960_actuator
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY include/
-  DESTINATION include
+install(TARGETS test_motor
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
-
-install(FILES my_motor_hardware.xml
-  DESTINATION share/${PROJECT_NAME}
-)
-
-# Export (buenas prácticas)
-ament_export_include_directories(include)
-ament_export_libraries(${PROJECT_NAME})
-ament_export_dependencies(rclcpp hardware_interface pluginlib ament_index_cpp)
+install(DIRECTORY include/ DESTINATION include)
+install(FILES my_motor_hardware.xml DESTINATION share/${PROJECT_NAME})
 
 ament_package()
