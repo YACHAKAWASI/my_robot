@@ -1,7 +1,8 @@
-<library path="my_motor_hardware">
-  <class name="my_motor_hardware/Bts7960Actuator"
-         type="my_motor_hardware::Bts7960Actuator"
-         base_class_type="hardware_interface::SystemInterface">
+
+<library path="bts7960_actuator">
+  <class name="my_motor_hardware/SimpleMotor"
+         type="my_motor_hardware::SimpleMotor"
+         base_class_type="hardware_interface::ActuatorInterface">
     <description>Hardware interface for BTS7960 motor driver using libgpiod</description>
   </class>
 </library>

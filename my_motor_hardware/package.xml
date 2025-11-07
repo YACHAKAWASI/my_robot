@@ -12,4 +12,13 @@
   <depend>rclcpp_lifecycle</depend>
   <depend>hardware_interface</depend>
   <depend>pluginlib</depend>
+
+  <!-- (Opcional) tests:
+  <test_depend>ament_cmake_gmock</test_depend>
+  <test_depend>hardware_interface</test_depend>
+  -->
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 </package>
